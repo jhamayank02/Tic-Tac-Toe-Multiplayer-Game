@@ -1,0 +1,128 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.container{
+    margin: auto;
+    width: fit-content;
+    padding: 20px 0;
+}
+
+.playerNames{
+    background-color: #f05454;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0;
+    font-size: 20px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 2px;
+}
+
+.box{ 
+    height: 100px;
+    width: 100px;
+    background-color: #d1d1d1;
+    border: 2px solid #b9b9b9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: #30475E;
+    font-weight: bold;
+}
+
+.box:hover{ 
+    background-color: #f1b0b0;
+    border: 2px solid #ff7777;
+}
+
+.selected{ 
+    background-color: #f1b0b0;
+    border: 2px solid #ff7777;
+}
+
+
+.msgContainer{
+    margin-bottom: 30px;
+    height: 50px;
+}
+
+.msgBox{
+    padding: 9px 8px;
+    border-radius: 6px;
+    font-size: 17px;
+}
+
+.success{
+    color: #027e02;
+    background-color: #89fd89;
+}
+
+.error{
+    background-color: #fd8989;
+    color: #7e0202;
+}
+
+.displayWinner{
+    background-color: white;
+    position: absolute;
+    top: 30vh;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 60px;
+    border-radius: 5px;
+    box-shadow: 0 0 13px #525252;
+    display: none;
+}
+
+.winnerBox{
+    color: #30475E;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.buttons{
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btnReset{
+    padding: 6px 15px;
+    font-size: 18px;
+    background-color: #f05454;
+    border: none;
+    border-radius: 4px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.btnReset:hover{
+    box-shadow: 0 0 10px #767676;
+}
+
+.btnClose{
+    margin-right: 10px;
+    padding: 4px 15px;
+    font-size: 18px;
+    background-color: #ffffff;
+    border: 2px solid #f05454;
+    border-radius: 4px;
+    color: #f05454;
+    font-weight: bold;
+}
+
+.btnClose:hover{
+    box-shadow: 0 0 10px #767676;
+}

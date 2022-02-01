@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/gamepage.css">
+    <title>Tic Tac Toe - Multiplayer Game</title>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="msgContainer">
+            {% for message in messages %}
+                <div class="msgBox {{message.tags}}">
+                    <div><strong>{{message.tags}}: </strong>{{message}}</div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="playerNames">
+            <div class="player1 player" id="player1">Player 1</div>
+            <div class="player2 player" id="player2">Player 2</div>
+        </div>
+        <div class="grid">
+            <div id="0" onclick=getSelectedBox(this.id) class="box"></div>
+            <div id="1" onclick=getSelectedBox(this.id) class="box"></div>
+            <div id="2" onclick=getSelectedBox(this.id) class="box"></div>
+            <div id="3" onclick=getSelectedBox(this.id) class="box"></div>
+            <div id="4" onclick=getSelectedBox(this.id) class="box"></div>
+            <div id="5" onclick=getSelectedBox(this.id) class="box"></div>
+            <div id="6" onclick=getSelectedBox(this.id) class="box"></div>
+            <div id="7" onclick=getSelectedBox(this.id) class="box"></div>
+            <div id="8" onclick=getSelectedBox(this.id) class="box"></div>
+        </div>
+    </div>
+
+    <div class="displayWinner">
+        <div class="winnerBox"></div>
+        <div class="buttons">
+            <button class="btnReset">Reset</button>
+            <button class="btnClose">Close</button>
+        </div>
+    </div>
+    
+
+
+    <script>
+
+        // Grab all the variables
+        let roomName = "{{room_name}}"
+        let username = "{{username}}"
+        let filledBoxes = ["", "", "", "", "", "", "", "", ""]
+        let filledBoxesOfOpponent = ["", "", "", "", "", "", "", "", ""]
+        let opponent = ""
+        let box0 = document.getElementById('0');
+        let box1 = document.getElementById('1');
+        let box2 = document.getElementById('2');
+        let box3 = document.getElementById('3');
+        let box4 = document.getElementById('4');
+        let box5 = document.getElementById('5');
+        let box6 = document.getElementById('6');
+        let box7 = document.getElementById('7');
+        let box8 = document.getElementById('8');
+        let player1 = document.getElementById('player1');
+        let player2 = document.getElementById('player2');
+        let msgBox = document.getElementsByClassName('msgBox')[0]
+        let displayWinner = document.getElementsByClassName('displayWinner')[0]
+        let winnerBox = document.getElementsByClassName('winnerBox')[0]
+        let btnClose = document.getElementsByClassName('btnClose')[0]
+        let btnReset = document.getElementsByClassName('btnReset')[0]
+
+        btnClose.addEventListener('click', ()=>{
+            displayWinner.style.display = 'none'
+        })
+
+        btnReset.addEventListener('click', ()=>{
+            window.location.reload()
+        })
+
+        // Set display = 'none' of msgBox after 3 seconds
+        setTimeout(()=>{
+            msgBox.style.display = 'none'
+        }, 3000)
+
+        player1.innerHTML = username
+        
+        // Establish websocket connection
+        const gameSocket = new WebSocket(
+        'ws://' +
+        window.location.host +
+        '/ws/game/' +
+        roomName +
+        '/'
+        )
+            
+        // This function will run each time a user clicks on a box
+        function getSelectedBox(id){
+            // If selected box is empty fill that box
+            if(filledBoxes[id] === "" && filledBoxesOfOpponent[id] === ""){
+                document.getElementById(`${id}`).classList.add('selected')
+                document.getElementById(`${id}`).innerHTML = username.charAt(0).toUpperCase()
+                filledBoxes[id] = id
+
+                // send data
+                gameSocket.send(JSON.stringify({
+                    'username': username,
+                    'message': filledBoxes
+                }))
+            }              
+        }
+        
+        // On receiving message
+        gameSocket.onmessage = function(e){
+            const data = JSON.parse(e.data)
+            filledBoxesOfOpponent = data["message"]
+            opponent = data["username"]
+            if(opponent != username){
+                player2.innerHTML = opponent
+            }
+            
+
+            for(i=0;i<=8;i++){
+                if(filledBoxesOfOpponent[i] != "" && filledBoxesOfOpponent[i] != filledBoxes[i]){
+                    document.getElementById(`${[i]}`).innerHTML = opponent.charAt(0).toUpperCase()
+                    document.getElementById(`${[i]}`).classList.add('selected')
+                }
+            }
+
+            checkWinner()
+        }
+
+        
+        function checkWinner(){
+            if(box0.innerHTML!="" && box1.innerHTML!="" && box2.innerHTML!="" && box0.innerHTML == box1.innerHTML && box1.innerHTML == box2.innerHTML){
+                    let winner;
+                    displayWinner.style.display = 'block'
+                    if(box0.innerHTML == username.charAt(0)){
+                        winner = username
+                    }
+                    else{
+                        winner = opponent
+                    }
+                    winnerBox.innerHTML = `${winner} won the game!!!`
+            }
+            else if(box3.innerHTML!="" && box4.innerHTML!="" && box5.innerHTML!="" && box3.innerHTML == box4.innerHTML && box4.innerHTML == box5.innerHTML){
+                let winner;
+                displayWinner.style.display = 'block'
+                if(box0.innerHTML == username.charAt(0)){
+                    winner = username
+                }
+                else{
+                    winner = opponent
+                }
+                winnerBox.innerHTML = `${winner} won the game!!!`
+            }
+            else if(box6.innerHTML!="" && box7.innerHTML!="" && box8.innerHTML!="" && box6.innerHTML == box7.innerHTML && box7.innerHTML == box8.innerHTML){
+                let winner;
+                displayWinner.style.display = 'block'
+                if(box0.innerHTML == username.charAt(0)){
+                    winner = username
+                }
+                else{
+                    winner = opponent
+                }
+                winnerBox.innerHTML = `${winner} won the game!!!`
+            }
+            else if(box0.innerHTML!="" && box4.innerHTML!="" && box8.innerHTML!="" && box0.innerHTML == box4.innerHTML && box4.innerHTML == box8.innerHTML){
+                let winner;
+                displayWinner.style.display = 'block'
+                if(box0.innerHTML == username.charAt(0)){
+                    winner = username
+                }
+                else{
+                    winner = opponent
+                }
+                winnerBox.innerHTML = `${winner} won the game!!!`
+            }
+            else if(box2.innerHTML!="" && box4.innerHTML!="" && box6.innerHTML!="" && box2.innerHTML == box4.innerHTML && box4.innerHTML == box6.innerHTML){
+                let winner;
+                displayWinner.style.display = 'block'
+                if(box0.innerHTML == username.charAt(0)){
+                    winner = username
+                }
+                else{
+                    winner = opponent
+                }
+                winnerBox.innerHTML = `${winner} won the game!!!`
+            }
+            else if(box0.innerHTML!="" && box3.innerHTML!="" && box6.innerHTML!="" && box0.innerHTML == box3.innerHTML && box3.innerHTML == box6.innerHTML){
+                let winner;
+                displayWinner.style.display = 'block'
+                if(box0.innerHTML == username.charAt(0)){
+                    winner = username
+                }
+                else{
+                    winner = opponent
+                }
+                winnerBox.innerHTML = `${winner} won the game!!!`
+            }
+            else if(box1.innerHTML!="" && box4.innerHTML!="" && box7.innerHTML!="" && box1.innerHTML == box4.innerHTML && box4.innerHTML == box7.innerHTML){
+                let winner;
+                displayWinner.style.display = 'block'
+                if(box0.innerHTML == username.charAt(0)){
+                    winner = username
+                }
+                else{
+                    winner = opponent
+                }
+                winnerBox.innerHTML = `${winner} won the game!!!`
+            }
+            else if(box2.innerHTML!="" && box5.innerHTML!="" && box8.innerHTML!="" && box2.innerHTML == box5.innerHTML && box5.innerHTML == box8.innerHTML){
+                let winner;
+                displayWinner.style.display = 'block'
+                if(box0.innerHTML == username.charAt(0)){
+                    winner = username
+                }
+                else{
+                    winner = opponent
+                }
+                winnerBox.innerHTML = `${winner} won the game!!!`
+            }
+            else if(box0.innerHTML!="" && box1.innerHTML!="" && box2.innerHTML!="" && box3.innerHTML!="" && box4.innerHTML!="" && box5.innerHTML!="" && box6.innerHTML!="" && box7.innerHTML!="" && box8.innerHTML!="" ){
+                displayWinner.style.display = 'block'
+                winnerBox.innerHTML = `Game draw!!!`
+            }
+        }
+        
+    </script>
+
+</body>
+</html>

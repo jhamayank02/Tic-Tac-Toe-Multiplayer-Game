@@ -1,0 +1,92 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.container{
+    text-align: center;
+    padding: 100px 0px;
+}
+
+h1{
+    margin-bottom: 5px;
+    color: #30475E;
+    font-size: 40px;
+}
+
+.formContainer{
+    width: 80%;
+    margin: auto;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.inputs{
+    width: 40%;
+    padding: 3px 4px;
+    outline: none;
+    margin-bottom: 13px;
+    font-size: 18px;
+    border: 2px solid #f05454;
+    border-radius: 4px;
+}
+
+select{
+    width: 41% !important;
+}
+
+.submitBtn{
+    width: fit-content;
+    padding: 6px 22px;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 5px;
+    font-size: 17px;
+    background-color: #f05454;
+    margin-top: 3px;
+}
+
+.submitBtn:hover{
+    border: 2px solid #f05454;
+    color: #f05454;
+    background-color: #ffffff;
+}
+
+.msgContainer{
+    margin-bottom: 5px;
+    height: 50px;
+    width: fit-content;
+    margin: auto;
+}
+
+.msgBox{
+    padding: 9px 16px;
+    border-radius: 6px;
+    font-size: 17px;
+}
+
+.success{
+    color: #027e02;
+    background-color: #89fd89;
+}
+
+.error{
+    background-color: #fd8989;
+    color: #7e0202;
+}
+
+/* Responsive CSS */
+@media only screen and (max-width: 650px) {
+    .inputs{
+      width: 100%;
+    }
+    select{
+      width: 103% !important;
+    }
+  }

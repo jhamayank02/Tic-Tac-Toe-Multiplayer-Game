@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/home.css">
+    <title>Tic Tac Toe - Multiplayer Game</title>
+</head>
+<body>
+    <div class="container">
+        
+        <h1>Tic Tac Toe - Multiplayer Game</h1>
+        <div class="msgContainer">
+            {% for message in messages %}
+                <div class="msgBox {{message.tags}}">
+                    <div><strong>{{message.tags|upper}}: </strong>{{message}}</div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="formContainer">
+            <form action="/gamepage" method="POST">
+                {% csrf_token %}
+                <input id="username" class="inputs" type="text" name="username" placeholder="Enter your username">
+                <select name="option" class="inputs" id="option">
+                    <option name="option" value="">Choose a option</option>
+                    <option name="option" value="1">Have room name</option>
+                    <option name="option" value="2">Create a room</option>
+                </select>
+                <input id="room_name" class="inputs" type="text" name="room_name" placeholder="Enter your room name">
+                <button type="submit" id="submitBtn" class="submitBtn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
